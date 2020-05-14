@@ -21,7 +21,7 @@
         <table class="table">
             <tbody>
                 <tr>
-                    <td style="width: 30px;"><strong>Cidade/Estado:</strong></td>
+                    <td style="width: 40px;"><strong>Cidade/Estado:</strong></td>
                     <td>{{ $data->cidade->nome }}/{{ $data->estado->uf }}</td>
                 </tr>
                 <tr>

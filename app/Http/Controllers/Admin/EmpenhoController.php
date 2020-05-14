@@ -124,7 +124,11 @@ class EmpenhoController extends Controller
      */
     public function show($id)
     {
-        //
+        if($data = $this->empenhoRepository->find($id)):
+            return view('admin.'.$this->model.'.show', compact('data'));
+        else:
+            return redirect()->back()->withErrors('Erro ao buscar dados!');
+        endif;
     }
 
     /**

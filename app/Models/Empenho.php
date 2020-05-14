@@ -43,4 +43,9 @@ class Empenho extends Model
     {
         return $this->belongsTo(StatusEmpenho::class);
     }
+    
+    public function itensEmpenhos() 
+    {
+        return $this->hasMany(ItemEmpenho::class);
+    }
 }

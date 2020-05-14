@@ -18,28 +18,71 @@
 @section('content')
 <div class="card">
     <div class="card-body">
-        <form class="form-horizontal">
-            <fieldset disabled>
-                <div class="form-group row">
-                    <label class="col-sm-2 col-form-label">Nome</label>
-                    <div class="col-sm-10">
-                        <input type="text" class="form-control" value="{{ $data->nome }}">
-                    </div>
-                </div>
-                <div class="form-group row">
-                    <label class="col-sm-2 col-form-label">Sigla</label>
-                    <div class="col-sm-10">
-                        <input type="text" class="form-control" value="{{ $data->sigla }}">
-                    </div>
-                </div>
-                <div class="form-group row">
-                    <label class="col-sm-2 col-form-label">Criado em</label>
-                    <div class="col-sm-10">
-                        <input type="text" class="form-control" value="{{ $data->created_at->format('d/m/Y') }}">
-                    </div>
-                </div>
-            </fieldset>
-        </form>
+        <table class="table text-nowrap table-bordered">
+            <tr>
+                <td style="width: 130px;"><strong>Tipo Item</strong></td>
+                <td colspan="5">{{ $data->tipoItem->nome }}</td>
+            </tr>
+            <tr>
+                <td style="width: 130px;"><strong>Processo</strong></td>
+                <td colspan="5">{{ $data->processo }}</td>
+            </tr>
+            <tr>
+                <td style="width: 130px;"><strong>Empresa</strong></td>
+                <td>{{ $data->empresa->nome }}</td>
+                <td style="width: 130px;"><strong>CNPJ</strong></td>
+                <td colspan="3">{{ $data->empresa->cnpj }}</td>
+            </tr>
+            <tr>
+                <td style="width: 130px;"><strong>Fonte</strong></td>
+                <td>{{ $data->linhaCredito->fonte }}</td>
+                <td style="width: 130px;"><strong>PI</strong></td>
+                <td>{{ $data->linhaCredito->pi }}</td>
+                <td style="width: 130px;"><strong>Natureza</strong></td>
+                <td>{{ $data->natureza->natureza }}</td>
+            </tr>
+            <tr>
+                <td style="width: 130px;" class="align-middle"><button class="btn btn-primary"><strong>Itens Empenho</strong></button></td>
+                <td colspan="5">
+                    <table class="table table-borderless table-sm">
+                        <tr><td>item01</td> </tr>
+                        <tr><td>item01</td> </tr>
+                        <tr><td>item01</td> </tr>
+                        <tr><td>item01</td> </tr>
+                    </table>
+                </td>
+            </tr>
+            <tr>
+                <td style="width: 130px;"><strong>Valor Solicitado</strong></td>
+                <td colspan="5">{{ $data->valor_solicitacao }}</td>
+            </tr>
+            <tr>
+                <td style="width: 130px;"><strong>Data Solicitação</strong></td>
+                <td colspan="5">{{ $data->data_solicitacao }}</td>
+            </tr>
+            <tr>
+                <td style="width: 130px;"><strong>Solicitação</strong></td>
+                <td colspan="5">{{ $data->solicitacao }}</td>
+            </tr>
+            <tr>
+                <td style="width: 130px;"><strong>Status</strong></td>
+                <td colspan="5">{{ $data->statusEmpenho->status }}</td>
+            </tr>
+            <tr>
+                <td style="width: 130px;"><strong>Saldo</strong></td>
+                <td colspan="5">R$ 1.000,00</td>
+            </tr>
+            <tr>
+                <td style="width: 130px;" class="align-middle"><button class="btn btn-primary"><strong>Orçamentos</strong></button></td>
+                <td colspan="5">
+                    <table class="table table-borderless table-sm">
+                        <tr><td>OS 001</td> </tr>
+                        <tr><td>OS 002</td> </tr>
+                        <tr><td>OS 003</td> </tr>
+                    </table>
+                </td>
+            </tr>
+        </table>
     </div>
     <div class="card-footer">
         <form action="{{ route(request()->segment(2).'.destroy', $data->id) }}" id="formDestroy" method="POST">
