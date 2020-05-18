@@ -40,4 +40,20 @@ class Util
         $cnpj = preg_replace("/\D/", '', $data);
         return preg_replace("/(\d{2})(\d{3})(\d{3})(\d{4})(\d{2})/", "\$1.\$2.\$3/\$4-\$5", $cnpj);
     }
+    
+    public static function formatPhone($data) 
+    {
+        $tamanho = strlen($data);
+        
+        if($tamanho == 11):
+            $celular = preg_replace("/\D/",'', $data);
+        
+            return preg_replace("/(\d{2})(\d{5})(\d{4})/", "(\$1) \$2-\$3", $celular);
+        else:
+            $fixo = preg_replace("/\D/",'',$data);
+        
+            return preg_replace("/(\d{2})(\d{4})(\d{4})/", "(\$1) \$2-\$3", $fixo);
+        endif;
+        
+    }
 }

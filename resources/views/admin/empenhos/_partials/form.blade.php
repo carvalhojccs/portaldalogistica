@@ -67,16 +67,8 @@
     <label>Solicitação:</label>
     <input type="text" name="solicitacao" class="form-control" placeholder="Solicitação" value="{{ $data->solicitacao ?? old('solicitacao') }}">
 </div>
+
 <div class="form-group">
-    <label>Status solicitação:</label>
-    <select name="status_empenho_id" class="form-control" id="natureza">
-        <option value="">Selecione um status..</option>
-        @foreach($statusEmpenhos as $id => $statusEmpenho)
-            <option value="{{ $id }}"
-                    @if(isset($data) && $data->statusEmpenho->id == $id)
-                        selected
-                    @endif
-                    >{{ $statusEmpenho }}</option>
-        @endforeach
-    </select>
+    <label>Nota de empenho:</label>
+    <input type="text"  name="empenho" class="form-control" value="{{ $data->empenho ?? old('empenho') }}">
 </div>

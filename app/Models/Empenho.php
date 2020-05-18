@@ -13,6 +13,7 @@ class Empenho extends Model
         'linha_credito_id',
         'natureza_id',
         'status_empenho_id',
+        'empenho',
         'solicitacao',
         'data_solicitacao',
         'valor_solicitacao',

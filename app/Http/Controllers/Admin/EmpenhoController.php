@@ -55,7 +55,10 @@ class EmpenhoController extends Controller
             'linhaCredito',
             'natureza',
             'statusEmpenho',
+            'itensEmpenhos',
         ])->paginate();
+        
+
         
         /*
          * retorna a view index.blade.php localizada na pasta
@@ -101,7 +104,10 @@ class EmpenhoController extends Controller
      */
     public function store(StoreUpdateEmpenhoFormRequest $request)
     {
-        //dd($request->all());
+        $data = $request->all();
+        $data['status_empenho_id'] = 1;
+        
+        //dd($data);
         
       /*
          * recupera os dados do formulário via $request e na tabela
@@ -109,7 +115,7 @@ class EmpenhoController extends Controller
          * localizada em resources\views\admin\locais
          * caso haja algum erro,retorna para a página anterior         * 
          */
-        if($this->empenhoRepository->create($request->all())):
+        if($this->empenhoRepository->create($data)):
             return redirect()->route($this->model.'.index')->withSuccess('m');
         else:
             return redirect()->back;

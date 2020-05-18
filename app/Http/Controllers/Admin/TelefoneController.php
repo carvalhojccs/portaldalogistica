@@ -28,4 +28,11 @@ class TelefoneController extends Controller
             return redirect()->back();
         endif;
     }
+    
+    public function destroy($id) 
+    {
+        if($data = $this->telefoneRepository->find($id)):
+            $data->delete();
+        endif;
+    }
 }

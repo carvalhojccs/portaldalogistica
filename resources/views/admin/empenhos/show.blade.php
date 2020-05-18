@@ -42,19 +42,40 @@
                 <td>{{ $data->natureza->natureza }}</td>
             </tr>
             <tr>
-                <td style="width: 130px;" class="align-middle"><button class="btn btn-primary"><strong>Itens Empenho</strong></button></td>
+                <td style="width: 130px;" class="align-middle"><button class="btn btn-primary" data-toggle="modal" data-target="#formModal"><strong>Itens Empenho</strong></button></td>
                 <td colspan="5">
-                    <table class="table table-borderless table-sm">
-                        <tr><td>item01</td> </tr>
-                        <tr><td>item01</td> </tr>
-                        <tr><td>item01</td> </tr>
-                        <tr><td>item01</td> </tr>
+                    <table class="table  table-hover table-sm table-bordered">
+                        <thead class="bg-primary">
+                            <tr>
+                                <th>Descrição</th>
+                                <th>Quantidade</th>
+                                <th>V. Unit</th>
+                                <th>V. Total</th>
+                                <th>Status</th>
+                                <th class="text-center">Ação</th>
+                            </tr>
+                        </thead>
+                        @forelse($data->itensEmpenhos as $itemEmpenho)
+                        <tr class="text-uppercase">
+                            <td>{{ $itemEmpenho->descricao }}</td>
+                            <td>{{ $itemEmpenho->quantidade }}</td>
+                            <td>R$ {{ number_format($itemEmpenho->valor,2,',','.') }}</td>
+                            <td>R$ {{ number_format(($itemEmpenho->valor * $itemEmpenho->quantidade),2,',','.') }}</td>
+                            <td>{{ $itemEmpenho->statusItemEmpenho->status }}</td>
+                            <td class="text-center">
+                                <button class="btn btn-primary btn-sm editar" value="{{ $itemEmpenho->id }}">Editar</button>
+                                <button class="btn btn-danger btn-sm deletar" value="{{ $itemEmpenho->id }}">Deletar</button>
+                            </td>
+                        </tr>
+                        @empty
+                        <tr><td colspan="6">Enhum item cadastrado!</td></tr>
+                        @endforelse
                     </table>
                 </td>
             </tr>
             <tr>
                 <td style="width: 130px;"><strong>Valor Solicitado</strong></td>
-                <td colspan="5">{{ $data->valor_solicitacao }}</td>
+                <td colspan="5">R$ {{ number_format($data->valor_solicitacao,2,',','.') }}</td>
             </tr>
             <tr>
                 <td style="width: 130px;"><strong>Data Solicitação</strong></td>
@@ -83,18 +104,11 @@
                 </td>
             </tr>
         </table>
-    </div>
-    <div class="card-footer">
-        <form action="{{ route(request()->segment(2).'.destroy', $data->id) }}" id="formDestroy" method="POST">
-            @csrf
-            @method('DELETE')
-            <a href="{{ route(request()->segment(2).'.index') }}" class="btn btn-info btn-sm"><i class="fas fa-reply">&nbsp;</i>Voltar</a>
-            <a href="{{ route(request()->segment(2).'.edit',$data->id) }}" class="btn btn-primary btn-sm"><i class="fas fa-edit">&nbsp;</i>Editar</a>
-            <button type="submit" class="btn btn-danger btn-sm float-sm-right" id="btnDeletar"><i class="fas fa-trash">&nbsp;</i>Deletar</button>
-        </form>
+
+        @include('admin.empenhos.modais.action_modal')
+        @include('admin.empenhos.modais.confirm_modal')
+        
     </div>
 </div>
 @stop
-@section('js')
-    <script src="{{ asset('includes/js/confirm.delete.js') }}"></script>
-@stop
+@include('admin.empenhos.modais.ajax')

@@ -25,4 +25,11 @@ class ColaboradorController extends Controller
             return redirect()->back();
         endif;
     }
+    
+    public function destroy($id) 
+    {
+        if($data = $this->colaboradorRepository->find($id)):
+            $data->delete();
+        endif;
+    }
 }

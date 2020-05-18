@@ -26,6 +26,7 @@ class CreateEmpenhosTable extends Migration
             $table->foreign('natureza_id')->references('id')->on('naturezas');
             $table->unsignedBigInteger('status_empenho_id');
             $table->foreign('status_empenho_id')->references('id')->on('status_empenhos');
+            $table->string('empenho',12)->unique();
             $table->string('solicitacao',7)->unique();
             $table->date('data_solicitacao');
             $table->decimal('valor_solicitacao',10,2);

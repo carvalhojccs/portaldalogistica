@@ -18,7 +18,7 @@
 @section('content')
 <div class="card">
     <div class="card-body">
-        <table class="table">
+        <table class="table table-sm">
             <tbody>
                 <tr>
                     <td style="width: 40px;"><strong>Cidade/Estado:</strong></td>
@@ -33,39 +33,53 @@
                     <td>{{ $data->nome }}</td>
                 </tr>
                 <tr>
-                    <td style="width: 30px;"><strong>Telefones:</strong></td>
+                    <td style="width: 130px;" class="align-middle"><button class="btn btn-primary" id='btnTelefoneCreate'><strong>Telefones</strong></button></td>
                     <td>
-                        <button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#telefonesCreate"><i class="fas fa fa-phone">&nbsp;</i></button>
-                        <table class="table">
-                            <thead>
-                            <th>Número</th>
+                        <table class="table table-sm">
+                            <thead class="bg-primary">
+                                <tr>
+                                    <th>Número</th>
+                                    <th class="text-center">Ações</th>
+                                </tr>
                             </thead>
                             <tbody>
-                            @foreach($data->telefones as $telefone)
+                            @forelse($data->telefones as $telefone)
                                 <tr>
-                                    <td>{{ $telefone->numero }}</td>
+                                    <td>{{ Util::formatPhone($telefone->numero) }}</td>
+                                    <td style="width: 150px; text-align: center">
+                                        <button class="btn btn-warning btn-sm editar " value="{{ $telefone->id }}"><i class="fas fa-edit"></i></button>
+                                        <button class="btn btn-danger btn-sm deletar deletarTelefone" value="{{ $telefone->id }}"><i class="fas fa-trash"></i></button>
+                                    </td>
                                 </tr>
-                            @endforeach
+                                @empty
+                                <tr><td>Nenhum telefone cadastrado!</td></tr>
+                            @endforelse
                             </tbody>
                         </table>
                     </td>
                 </tr>
                 <tr>
-                    <td style="width: 30px;"><strong>Colaboradores:</strong></td>
+                    <td style="width: 130px;" class="align-middle"><button class="btn btn-primary" id="btnColaboradorCreate"><strong>Colaboradores</strong></button></td>
                     <td>
-                        <button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#colaboradoresCreate"><i class="fas fa fa-users">&nbsp;</i></button>
-                        <table class="table">
-                            <thead>
+                        <table class="table table-sm">
+                            <thead class="bg-primary">
                             <th>Nome</th>
                             <th>E-mail</th>
+                            <th class="text-center">Ações</th>
                             </thead>
                             <tbody>
-                                @foreach($data->colaboradores as $colaborador)
+                                @forelse($data->colaboradores as $colaborador)
                                 <tr>
                                     <td>{{ $colaborador->nome }}</td>
                                     <td>{{ $colaborador->email }}</td>
+                                    <td style="width: 150px; text-align: center">
+                                        <button class="btn btn-warning btn-sm editar" value="{{ $colaborador->id }}"><i class="fas fa-edit"></i></button>
+                                        <button class="btn btn-danger btn-sm deletar deletarColaborador" value="{{ $colaborador->id }}"><i class="fas fa-trash"></i></button>
+                                    </td>
                                 </tr>
-                        @endforeach
+                                @empty
+                                <tr><td>Nenhum colaborador cadastrado!</td></tr>
+                        @endforelse
                             </tbody>
                         </table>
                     </td>
@@ -99,7 +113,7 @@
                             <label class="col-sm-2 col-form-label">Telefone</label>
                             <div class="col-sm-10">
                                 <input type="hidden" name="empresa_id" value="{{ $data->id }}">
-                                <input type="text" name="numero" class="form-control" placeholder="(  ) ____-____" required>
+                                <input type="text" name="numero" class="form-control" id="numero">
                             </div>
                         </div>
                     </div>
@@ -124,10 +138,12 @@
                         @include('admin.includes.alerts')
                         <div class="form-group row">
                             <div class="col-sm-10">
+                                <label>Nome:</label>
                                 <input type="hidden" name="empresa_id" value="{{ $data->id }}">
-                                <input type="text" name="nome" class="form-control" placeholder="Nome do colaborador">
+                                <input type="text" name="nome" class="form-control" id="nomeColaborador">
                             </div>
                             <div class="col-sm-10">
+                                <label>E-mail</label>
                                 <input type="text" name="email" class="form-control" placeholder="Email do colaborador">
                             </div>
                         </div>
@@ -142,9 +158,8 @@
     </div>
 </div>
 
-@stop
-@section('js')
-    <script src="{{ asset('includes/js/confirm.delete.js') }}"></script>
-    <script src="{{ asset('includes/js/telefones/create.js') }}"></script>
+@include('admin.includes.confirm_modal')
+
 @stop
 
+@include('admin.empresas.modais.script')

@@ -43,7 +43,7 @@
                     <th>Status Solicitação</th>
                     <th>Empenho</th>
                     <th>Saldo empenho</th>
-                    <th>Orçamentos</th>
+                    <th>RM</th>
                     <th style="text-align: right">Detalhe</th>
                 </tr>
             </thead>
@@ -58,22 +58,23 @@
                     <td class="align-middle">{{ $item->linhaCredito->pi }}</td>
                     <td class="align-middle">{{ $item->natureza->natureza }}</td>
                     <td class="align-middle">
-                        <table class="table table-sm table-borderless">
-                            <tbody>
-                                <tr><td>RM 213/DECO-EE/2019</td></tr>
-                                <tr><td>RM 411/SDM/2019</td></tr>
-                                <tr><td>RM 214/DECO-EE/2020</td></tr>
-                                <tr><td>RM 111/SDM/2019</td></tr>
-                            </tbody>
-                        </table>
+                        <table class="table  table-hover table-sm table-borderless">
+                        @forelse($item->itensEmpenhos as $itemEmpenho)
+                        <tr>
+                            <td>{{ $itemEmpenho->descricao }}</td>
+                        </tr>
+                        @empty
+                        <tr><td>Enhum item cadastrado!</td></tr>
+                        @endforelse
+                    </table>
                     </td>
-                    <td class="align-middle">{{ $item->valor_solicitacao }}</td>
-                    <td class="align-middle">{{ $item->data_solicitacao }}</td>
+                    <td class="align-middle">R$ {{ number_format($item->valor_solicitacao,2,',','.') }}</td>
+                    <td class="align-middle">{{ Carbon\Carbon::parse($item->data_solicitacao)->format('d/m/Y') }}</td>
                     <td class="align-middle">{{ $item->solicitacao }}</td>
                     <td class="align-middle">{{ $item->statusEmpenho->status }}</td>
+                    <td class="align-middle">{{ $item->empenho }}</td>
                     <td class="align-middle">R$ 1.000,00</td>
-                    <td class="align-middle">OS 001/SDS/2020</td>
-                    <td class="align-middle">{{ $item->sigla }}</td>
+                    <td class="align-middle">RM001/SDS/2020</td>
                     <td  class="align-middle" style="text-align: right"><a href="{{ route(request()->segment(2).'.show', $item->id) }}" class="btn btn-primary btn-sm">Detalhes</a></td>
                 </tr>
                 @empty

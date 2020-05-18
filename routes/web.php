@@ -5,17 +5,30 @@ Route::group(['prefix' => 'admin', 'namespace' => 'Admin'], function(){
      * Gestão de telefones
      */
     Route::post('telefones','TelefoneController@store')->name('telefones.store');
+    Route::get('telefones/destroy/{id}','TelefoneController@destroy');
     
     /*
-     * Gestão de telefones
+     * Gestão de colaboradores
      */
     Route::post('colaboradores','ColaboradorController@store')->name('colaboradores.store');
-    
+    Route::get('colaboradores/destroy/{id}','ColaboradorController@destroy');
+        
     /*
      * Empenhos
      */
     Route::any('empenhos/search','EmpenhoController@search')->name('empenhos.search');
     Route::resource('empenhos','EmpenhoController');
+    
+   /*
+     * Itens Empenhos
+     */
+    Route::any('itens_empenhos/search','ItemEmpenhoController@search')->name('itens_empenhos.search');
+    Route::resource('itens_empenhos','ItemEmpenhoController');
+    Route::post('itens_empenhos/store','ItemEmpenhoController@store')->name('itens_empenhos.store');
+    Route::post('itens_empenhos/update','ItemEmpenhoController@update')->name('itens_empenhos.update');
+    Route::get('itens_empenhos/destroy/{id}','ItemEmpenhoController@destroy');
+    
+    
     
     /*
      * Linhas de créditos
