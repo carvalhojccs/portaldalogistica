@@ -24,4 +24,9 @@ class ItemEmpenho extends Model
     {
         return $this->belongsTo(StatusItemEmpenho::class);
     }
+    
+    public function itensEmpenhoAutorizados() 
+    {
+        return $this->hasMany(ItemEmpenhoAutorizado::class);
+    }
 }

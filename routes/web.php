@@ -23,13 +23,25 @@ Route::group(['prefix' => 'admin', 'namespace' => 'Admin'], function(){
      * Itens Empenhos
      */
     Route::any('itens_empenhos/search','ItemEmpenhoController@search')->name('itens_empenhos.search');
-    Route::resource('itens_empenhos','ItemEmpenhoController');
     Route::post('itens_empenhos/store','ItemEmpenhoController@store')->name('itens_empenhos.store');
     Route::post('itens_empenhos/update','ItemEmpenhoController@update')->name('itens_empenhos.update');
-    Route::get('itens_empenhos/destroy/{id}','ItemEmpenhoController@destroy');
+    Route::get('itens_empenhos/{empenho_id}','ItemEmpenhoController@index')->name('itens_empenhos.index');
+    Route::get('itens_empenhos/{id}/edit','ItemEmpenhoController@edit')->name('itens_empenhos.edit');
+    Route::get('itens_empenhos/destroy/{id}','ItemEmpenhoController@destroy')->name('itens_empenhos.destroy');
     
+    /*
+     * Itens Empenho Autorizados
+     */
+    Route::post('itens_empenhos_autorizados/store','ItemEmpenhoAutorizadoController@store')->name('autorizado.store');
     
-    
+    /*
+     * Requisições Itens Empenho Autorizados
+     */
+    Route::post('requisicoes/store','RequisicaoController@store')->name('requisicoes.store');
+    Route::post('requisicoes/update','RequisicaoController@update')->name('requisicoes.update');
+    Route::get('requisicoes/{item_empenho_autorizado_id}','RequisicaoController@index')->name('requisicoes.index');
+    Route::get('requisicoes/{id}/edit','RequisicaoController@edit')->name('requisicoes.edit');
+    Route::get('requisicoes/destroy/{id}','RequisicaoController@destroy');
     /*
      * Linhas de créditos
      */

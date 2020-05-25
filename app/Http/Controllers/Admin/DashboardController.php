@@ -14,7 +14,8 @@ class DashboardController extends Controller
     {
        $totalPapeis = DB::table('papeis')->count();
        $totalLinhasCreditos = DB::table('linhas_creditos')->count();
-       
-       return view('admin.dashboard', compact('totalPapeis', 'totalLinhasCreditos'));
+       $totalEmpenhos = DB::table('empenhos')->count();
+       $valorEmpenhos = DB::table('empenhos')->sum('valor_solicitacao');
+       return view('admin.dashboard', compact('totalPapeis', 'totalLinhasCreditos','totalEmpenhos','valorEmpenhos'));
     }
 }

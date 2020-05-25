@@ -4,7 +4,7 @@
 <div class="container-fluid border-bottom">
     <div class="row mb-2">
         <div class="col-sm-6">
-            Listagem dos usuários
+            Listagem das empresas
         </div>
         <div class="col-sm-6">
             <ol class="breadcrumb float-right">
@@ -18,7 +18,7 @@
 @section('content')
 <div class="card card-primary">
     <div class="card-body">
-        @include('admin.users._partials.search')
+        @include('admin.'.request()->segment(2).'._partials.search')
     </div>
 </div>
 <div class="card">

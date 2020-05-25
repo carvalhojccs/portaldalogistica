@@ -3,26 +3,38 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\Empenho;
 use App\Models\ItemEmpenho;
+use App\Models\ItemEmpenhoAutorizado;
 use Illuminate\Http\Request;
 use Validator;
 
 class ItemEmpenhoController extends Controller
 {
     protected $repository;
-    
-    public function __construct(ItemEmpenho $itemEmpenho) 
+    protected $empenhoRepository;
+    protected $itemEmpenhoAutorizadoRepository;
+
+    public function __construct(
+            ItemEmpenho $itemEmpenho, 
+            Empenho $empenho,
+            ItemEmpenhoAutorizado $itemEmpenhoAutorrizado) 
     {
         $this->repository = $itemEmpenho;
+        $this->empenhoRepository = $empenho;
+        $this->itemEmpenhoAutorizadoRepository = $itemEmpenhoAutorrizado;
     }
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index($empenho_id)
     {
-        //
+        $empenho    = $this->empenhoRepository->find($empenho_id);
+        $data       = $this->repository->with('itensEmpenhoAutorizados')->where('empenho_id',$empenho_id)->get();
+        
+        return view('admin.empenhos.itens.index', compact('data','empenho'));
     }
 
     /**
@@ -127,7 +139,8 @@ class ItemEmpenhoController extends Controller
             
         ];
         
-        $this->repository->whereId($request->hidden_id)->update($data);
+       
+        $this->repository->whereId($request->edit_item_empenho_id)->update($data);
         
         return response()->json(['success' => 'Cadastro atualizado com sucesso!']);
         
@@ -143,8 +156,17 @@ class ItemEmpenhoController extends Controller
      */
     public function destroy($id)
     {
+        
         if($data = $this->repository->find($id)):
-            $data->delete();
+            //verificar se existe alguma autorizacao para o item do empenho
+            $verificaItemEmpenhoAutorizado = $this->itemEmpenhoAutorizadoRepository->where('item_empenho_id',$id)->count();
+            if($verificaItemEmpenhoAutorizado > 0):
+                $error = 'Existe(em) ' .$verificaItemEmpenhoAutorizado. ' autorização(ões) vinculadas a este item!';
+                return response()->json(['error' => $error]);
+                //return redirect()->route('itens_empenhos.index',$data->empenho_id)->with('verificaVinculo','Existe(em) ' .$verificaItemEmpenhoAutorizado. 'autorização(ões) vinculadas a este item!');
+            else:
+                $data->delete();
+            endif;    
         endif;
     }
 }

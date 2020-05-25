@@ -16,7 +16,9 @@
 </div>
 @stop
 @section('content')
+@include('admin.includes.alerts')
 <div class="card">
+    
     <div class="card-body">
         <table class="table table-sm">
             <tbody>
@@ -100,6 +102,7 @@
     </div>
 </div>
 
+<!-- Modal !-->
 <div class="modal fade" id="telefonesCreate" tabindex="-1" role="dialog" aria-labelledby="cadastroTelefone" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
@@ -159,7 +162,7 @@
 </div>
 
 @include('admin.includes.confirm_modal')
-
+ 
 @stop
 
 @include('admin.empresas.modais.script')

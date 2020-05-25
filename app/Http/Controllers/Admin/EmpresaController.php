@@ -5,20 +5,39 @@ namespace App\Http\Controllers\Admin;
 use App\Helpers\Util;
 use App\Http\Controllers\Controller;
 use App\Models\Cidade;
+use App\Models\Colaborador;
+use App\Models\Empenho;
 use App\Models\Empresa;
 use App\Models\Estado;
+use App\Models\Telefone;
 use Illuminate\Http\Request;
 
 class EmpresaController extends Controller
 {
-    protected $empresaRepositoory, $estadoRepository, $cidadeRepository, $model;
+    protected   $empresaRepositoory, 
+                $estadoRepository, 
+                $cidadeRepository,
+                $telefoneRepository,
+                $colaboradorRepository,
+                $empenhoRepository,
+                $model;
     
-    public function __construct(Empresa $empresa, Estado $estado, Cidade $cidade, Request $request)
+    public function __construct(
+            Empresa $empresa, 
+            Estado $estado, 
+            Cidade $cidade, 
+            Telefone $telefone,
+            Colaborador $colaborador,
+            Empenho $empenho,
+            Request $request)
     {
-        $this->empresaRepositoory   = $empresa;
-        $this->estadoRepository     = $estado;
-        $this->cidadeRepository     = $cidade;
-        $this->model                = $request->segment(2);
+        $this->empresaRepositoory       = $empresa;
+        $this->estadoRepository         = $estado;
+        $this->cidadeRepository         = $cidade;
+        $this->telefoneRepository       = $telefone;
+        $this->colaboradorRepository    = $colaborador;
+        $this->empenhoRepository        = $empenho;
+        $this->model                    = $request->segment(2);
     }
     
     /**
@@ -127,6 +146,26 @@ class EmpresaController extends Controller
      */
     public function destroy($id)
     {
-        //
+        //verifica se existe algum empenho vinculado a empresa
+        $verificaEmpenho = $this->empenhoRepository->where('empresa_id',$id)->count();
+        if($verificaEmpenho > 0):
+            return redirect()->route($this->model.'.show',$id)->with('verificaVinculo','Existe(em) '. $verificaEmpenho . ' empenho(os) vinculado(os) a esta empresa!');
+            
+        else:
+            //deleta os telefones
+            $this->telefoneRepository->where('empresa_id',$id)->delete();
+        
+            //deleta os colaboradores
+            $this->colaboradorRepository->where('empresa_id',$id)->delete();
+        
+            //deleta a empresa
+            $this->empresaRepositoory->where('id',$id)->delete();
+        
+            return redirect()->route($this->model.'.index')->withSuccess('m');
+            
+        endif;
+        
+        
+        
     }
 }
